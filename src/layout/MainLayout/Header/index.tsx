@@ -14,6 +14,7 @@ import LocalizationSection from './LocalizationSection';
 import MegaMenuSection from './MegaMenuSection';
 import FullScreenSection from './FullScreenSection';
 import NotificationSection from './NotificationSection';
+import logo from '../../../assets/images/logo.png';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 
@@ -38,9 +39,10 @@ const Header = () => {
         <>
             {/* logo & toggler button */}
             <Box sx={{ width: downMD ? 'auto' : 228, display: 'flex' }}>
-                <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
+                <Box component="span" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1 }} style={{ alignItems: 'center' }}>
                     {/* core */}
-                    <h1 style={{ fontSize: "20px" }}>Athanor</h1>
+                    <img style={{ width: '30px', height: '30px', borderRadius: '50%' }} alt="logo" src={logo}></img>
+                    <h1 style={{ fontSize: '20px', marginLeft: '15px' }}>Tékne</h1>
                 </Box>
                 {!isHorizontal && (
                     <Avatar
@@ -50,11 +52,10 @@ const Header = () => {
                             ...theme.typography.mediumAvatar,
                             overflow: 'hidden',
                             transition: 'all .2s ease-in-out',
-                            bgcolor: mode === ThemeMode.DARK ? 'dark.main' : 'secondary.light',
-                            color: mode === ThemeMode.DARK ? 'secondary.main' : 'secondary.dark',
+                            bgcolor: mode === ThemeMode.DARK ? 'dark.main' : 'primary.light',
+                            color: mode === ThemeMode.DARK ? 'secondary.main' : 'primary.dark',
                             '&:hover': {
-                                bgcolor: mode === ThemeMode.DARK ? 'secondary.main' : 'secondary.dark',
-                                color: mode === ThemeMode.DARK ? 'secondary.light' : 'secondary.light'
+                                bgcolor: mode === ThemeMode.DARK ? 'secondary.main' : 'primary.main'
                             }
                         }}
                         onClick={() => handlerDrawerOpen(!drawerOpen)}
@@ -71,17 +72,17 @@ const Header = () => {
             <Box sx={{ flexGrow: 1 }} />
 
             {/* mega-menu */}
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            {/* <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <MegaMenuSection />
-            </Box>
+            </Box> */}
 
             {/* live customization & localization */}
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <LocalizationSection />
-            </Box>
+            </Box> */}
 
             {/* notification */}
-            <NotificationSection />
+            {/* <NotificationSection /> */}
 
             {/* full sceen toggler */}
             <Box sx={{ display: { xs: 'none', lg: 'block' } }}>

@@ -10,8 +10,3 @@ This is material design template created based on materially structure
 2. Deployment process
     - Goto full-version directory and open package.json. Update homepage URL to the production URL
     - Goto full-version directory and run 'npm run build / yarn build'
-# athanor
-# athanor
-# athanor
-# athanor
-# Tekne

@@ -98,11 +98,10 @@ const NotificationSection = () => {
                         ...theme.typography.commonAvatar,
                         ...theme.typography.mediumAvatar,
                         transition: 'all .2s ease-in-out',
-                        bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'secondary.light',
-                        color: theme.palette.mode === ThemeMode.DARK ? 'warning.dark' : 'secondary.dark',
+                        bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'primary.light',
+                        color: theme.palette.mode === ThemeMode.DARK ? 'warning.dark' : 'primary.dark',
                         '&[aria-controls="menu-list-grow"],&:hover': {
-                            bgcolor: theme.palette.mode === ThemeMode.DARK ? 'warning.dark' : 'secondary.dark',
-                            color: theme.palette.mode === ThemeMode.DARK ? 'grey.800' : 'secondary.light'
+                            bgcolor: theme.palette.mode === ThemeMode.DARK ? 'warning.dark' : 'primary.main'
                         }
                     }}
                     ref={anchorRef}

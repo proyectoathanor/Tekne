@@ -168,16 +168,16 @@ const ProfileSection = () => {
                                 {open && (
                                     <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                                         <Box sx={{ p: 2, pb: 0 }}>
-                                            <Stack>
+                                            <Stack sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Typography variant="h4">Good Morning,</Typography>
+                                                    <Typography variant="h4">Hola,</Typography>
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
                                                         {user?.name}
                                                     </Typography>
                                                 </Stack>
-                                                <Typography variant="subtitle2">Project Admin</Typography>
+                                                {/* <Typography variant="subtitle2">Project Admin</Typography> */}
                                             </Stack>
-                                            <OutlinedInput
+                                            {/* <OutlinedInput
                                                 sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                                                 id="input-search-profile"
                                                 value={value}
@@ -192,7 +192,7 @@ const ProfileSection = () => {
                                                 inputProps={{
                                                     'aria-label': 'weight'
                                                 }}
-                                            />
+                                            /> */}
                                             <Divider />
                                         </Box>
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>

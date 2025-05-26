@@ -7,12 +7,12 @@ import { NavItemType } from 'types';
 const icons = {
     IconFlask2
 };
-const athanorPage: NavItemType = {
-    id: 'athanor-page',
-    title: <FormattedMessage id="Athanor" />,
+const teknePage: NavItemType = {
+    id: 'tekne',
+    title: <FormattedMessage id="Tekne" />,
     icon: icons.IconFlask2,
     type: 'group',
-    url: '/athanor-page'
+    url: '/tekne'
 };
 
-export default athanorPage;
+export default teknePage;
