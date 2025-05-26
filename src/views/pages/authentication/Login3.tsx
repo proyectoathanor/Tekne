@@ -14,6 +14,9 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from './auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import { supabase } from 'api/supabaseClient';
+import Button from '@mui/material/Button';
+import GoogleIcon from '@mui/icons-material/Google';
 
 // assets
 
@@ -22,6 +25,19 @@ import AuthFooter from 'ui-component/cards/AuthFooter';
 const Login = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+
+    const signInWithGoogle = async () => {
+        try {
+            await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: 'http://localhost:3000/' // o alguna ruta como /dashboard
+                }
+            });
+        } catch (error) {
+            console.error('Error al iniciar sesión con Google:', error);
+        }
+    };
 
     return (
         <AuthWrapper1>
@@ -68,6 +84,17 @@ const Login = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                            variant="outlined"
+                                            fullWidth
+                                            startIcon={<GoogleIcon />}
+                                            onClick={signInWithGoogle}
+                                            sx={{ textTransform: 'none', mt: 2 }}
+                                        >
+                                            Sign in with Google
+                                        </Button>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>

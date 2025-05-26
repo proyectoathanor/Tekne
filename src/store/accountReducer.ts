@@ -1,49 +1,43 @@
 // action - state management
-import { LOGIN, LOGOUT, REGISTER } from './actions';
-import { InitialLoginContextProps } from 'types/auth';
+import { LOGIN, LOGOUT } from './actions';
+// import { InitialLoginContextProps } from 'types/auth';
 
 // ==============================|| ACCOUNT REDUCER ||============================== //
 
-interface AccountReducerActionProps {
-    type: string;
-    payload?: InitialLoginContextProps;
-}
+// interface AccountReducerActionProps {
+//     type: string;
+//     payload?: InitialLoginContextProps;
+// }
 
-const initialState: InitialLoginContextProps = {
-    isLoggedIn: false,
-    isInitialized: false,
-    user: null
-};
+// const initialState: InitialLoginContextProps = {
+//     isLoggedIn: false,
+//     isInitialized: false,
+//     user: null
+// };
 
-const accountReducer = (state = initialState, action: AccountReducerActionProps) => {
+const accountReducer = (state: any, action: any) => {
     switch (action.type) {
-        case REGISTER: {
-            const { user } = action.payload!;
+        case 'INITIALIZE':
             return {
                 ...state,
-                user
+                isLoggedIn: action.payload.isLoggedIn,
+                isInitialized: true,
+                user: action.payload.user
             };
-        }
-        case LOGIN: {
-            const { user } = action.payload!;
+        case LOGIN:
             return {
                 ...state,
                 isLoggedIn: true,
-                isInitialized: true,
-                user
+                user: action.payload.user
             };
-        }
-        case LOGOUT: {
+        case LOGOUT:
             return {
                 ...state,
-                isInitialized: true,
                 isLoggedIn: false,
                 user: null
             };
-        }
-        default: {
-            return { ...state };
-        }
+        default:
+            return state;
     }
 };
 
