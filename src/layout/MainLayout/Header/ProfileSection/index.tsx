@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import JWTContext from 'contexts/JWTContext';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -11,12 +13,10 @@ import Chip from '@mui/material/Chip';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
@@ -32,10 +32,9 @@ import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
 import useAuth from 'hooks/useAuth';
-import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
+import { IconLogout, IconSettings, IconUser } from '@tabler/icons-react';
 import useConfig from 'hooks/useConfig';
 
 // types
@@ -47,14 +46,14 @@ const ProfileSection = () => {
     const theme = useTheme();
     const { mode, borderRadius } = useConfig();
     const navigate = useNavigate();
-
     const [sdm, setSdm] = useState(true);
-    const [value, setValue] = useState('');
     const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const { logout, user } = useAuth();
     const [open, setOpen] = useState(false);
 
+    const auth = useContext(JWTContext);
+    if (!auth?.user) return null;
     /**
      * anchorRef is used on different components and specifying one type leads to other components throwing an error
      * */
@@ -66,37 +65,32 @@ const ProfileSection = () => {
             console.error(err);
         }
     };
-
     const handleListItemClick = (event: React.MouseEvent<HTMLDivElement>, index: number, route: string = '') => {
         setSelectedIndex(index);
         // handleClose(event);
-
         if (route && route !== '') {
             navigate(route);
         }
     };
-
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
-
     const handleClose = (event: React.MouseEvent<HTMLDivElement> | MouseEvent | TouchEvent) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
-
         setOpen(false);
     };
-
     const prevOpen = useRef(open);
     useEffect(() => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
-
         prevOpen.current = open;
     }, [open]);
-
+    if (!user) return;
+    const { full_name, avatar_url, email } = user.user_metadata;
+    console.log(email);
     return (
         <>
             <Chip
@@ -122,8 +116,8 @@ const ProfileSection = () => {
                 }}
                 icon={
                     <Avatar
-                        src={User1}
-                        alt="user-images"
+                        src={avatar_url}
+                        alt={full_name}
                         sx={{
                             ...theme.typography.mediumAvatar,
                             margin: '8px 0 8px 8px !important',
@@ -170,9 +164,9 @@ const ProfileSection = () => {
                                         <Box sx={{ p: 2, pb: 0 }}>
                                             <Stack sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Typography variant="h4">Hola,</Typography>
+                                                    <Typography variant="h4">Hola, </Typography>
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        {user?.name}
+                                                        {full_name}
                                                     </Typography>
                                                 </Stack>
                                                 {/* <Typography variant="subtitle2">Project Admin</Typography> */}

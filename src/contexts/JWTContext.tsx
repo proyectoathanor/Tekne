@@ -1,48 +1,28 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 
-// third-party
-import { Chance } from 'chance';
-import { jwtDecode } from 'jwt-decode';
-
 // reducer - state management
-import { LOGIN, LOGOUT } from 'store/actions';
+import { LOGOUT } from 'store/actions';
 import accountReducer from 'store/accountReducer';
 
 // project imports
 import Loader from 'ui-component/Loader';
-import axios from 'utils/axios';
 
 // types
-import { KeyedObject } from 'types';
 import { InitialLoginContextProps, JWTContextType } from 'types/auth';
+import { supabase } from '../api/supabaseClient';
 
-const chance = new Chance();
-
-// constant
+// state inicial
 const initialState: InitialLoginContextProps = {
     isLoggedIn: false,
     isInitialized: false,
     user: null
 };
 
-const verifyToken: (st: string) => boolean = (serviceToken) => {
-    if (!serviceToken) {
-        return false;
-    }
-    const decoded: KeyedObject = jwtDecode(serviceToken);
-    /**
-     * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
-     */
-    return decoded.exp > Date.now() / 1000;
-};
-
 const setSession = (serviceToken?: string | null) => {
     if (serviceToken) {
         localStorage.setItem('serviceToken', serviceToken);
-        axios.defaults.headers.common.Authorization = `Bearer ${serviceToken}`;
     } else {
         localStorage.removeItem('serviceToken');
-        delete axios.defaults.headers.common.Authorization;
     }
 };
 
@@ -52,16 +32,45 @@ const JWTContext = createContext<JWTContextType | null>(null);
 export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const [state, dispatch] = useReducer(accountReducer, initialState);
 
+    const getRedirectUrl = (): string => {
+        if (typeof window !== 'undefined') {
+            const isLocalhost = window.location.origin === 'http://localhost:3000';
+            return isLocalhost ? 'http://localhost:3000/' : 'https://proyectoathanor.github.io/';
+        }
+        // Valor por defecto si no se ejecuta en el navegador
+        return 'https://proyectoathanor.github.io/';
+    };
+
+    const redirectUrl = getRedirectUrl();
+
+    const loginWithGoogle = async () => {
+        try {
+            await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: redirectUrl // o la URL de tu dashboard si tienes una
+                }
+            });
+        } catch (error) {
+            console.error('Error al iniciar sesión con Google:', error);
+        }
+    };
+
     useEffect(() => {
         const init = async () => {
             try {
-                const serviceToken = window.localStorage.getItem('serviceToken');
-                if (serviceToken && verifyToken(serviceToken)) {
-                    setSession(serviceToken);
-                    const response = await axios.get('/api/account/me');
-                    const { user } = response.data;
+                const {
+                    data: { session }
+                } = await supabase.auth.getSession();
+
+                if (session) {
+                    const token = session.access_token;
+                    const user = session.user;
+
+                    setSession(token);
+
                     dispatch({
-                        type: LOGIN,
+                        type: 'INITIALIZE',
                         payload: {
                             isLoggedIn: true,
                             user
@@ -69,13 +78,21 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
                     });
                 } else {
                     dispatch({
-                        type: LOGOUT
+                        type: 'INITIALIZE',
+                        payload: {
+                            isLoggedIn: false,
+                            user: null
+                        }
                     });
                 }
             } catch (err) {
-                console.error(err);
+                console.error('Error en init:', err);
                 dispatch({
-                    type: LOGOUT
+                    type: 'INITIALIZE',
+                    payload: {
+                        isLoggedIn: false,
+                        user: null
+                    }
                 });
             }
         };
@@ -84,61 +101,30 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     }, []);
 
     const login = async (email: string, password: string) => {
-        const response = await axios.post('/api/account/login', { email, password });
-        const { serviceToken, user } = response.data;
-        setSession(serviceToken);
-        dispatch({
-            type: LOGIN,
-            payload: {
-                isLoggedIn: true,
-                user
-            }
-        });
+        console.error('[Error] login sin contenido');
     };
 
     const register = async (email: string, password: string, firstName: string, lastName: string) => {
-        // todo: this flow need to be recode as it not verified
-        const id = chance.bb_pin();
-        const response = await axios.post('/api/account/register', {
-            id,
-            email,
-            password,
-            firstName,
-            lastName
-        });
-        let users = response.data;
-
-        if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-            const localUsers = window.localStorage.getItem('users');
-            users = [
-                ...JSON.parse(localUsers!),
-                {
-                    id,
-                    email,
-                    password,
-                    name: `${firstName} ${lastName}`
-                }
-            ];
-        }
-
-        window.localStorage.setItem('users', JSON.stringify(users));
+        console.error('[Error] register sin contenido');
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await supabase.auth.signOut();
         setSession(null);
         dispatch({ type: LOGOUT });
     };
 
     const resetPassword = async (email: string) => {};
-
     const updateProfile = () => {};
 
-    if (state.isInitialized !== undefined && !state.isInitialized) {
+    if (!state.isInitialized) {
         return <Loader />;
     }
 
     return (
-        <JWTContext.Provider value={{ ...state, login, logout, register, resetPassword, updateProfile }}>{children}</JWTContext.Provider>
+        <JWTContext.Provider value={{ ...state, login, loginWithGoogle, logout, register, resetPassword, updateProfile }}>
+            {children}
+        </JWTContext.Provider>
     );
 };
 
