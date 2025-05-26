@@ -6,7 +6,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // sample page routing
-const AthanorPage = Loadable(lazy(() => import('views/athanor-page')));
+const TeknePage = Loadable(lazy(() => import('views/teckne-page')));
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const PruebaPage = Loadable(lazy(() => import('views/prueba-page')));
 
@@ -22,11 +22,11 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <SamplePage />
+            element: <TeknePage />
         },
         {
-            path: '/athanor-page',
-            element: <AthanorPage />
+            path: '/tekne',
+            element: <TeknePage />
         },
         {
             path: '/sample-page',

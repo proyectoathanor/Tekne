@@ -29,21 +29,17 @@ const FullScreen = () => {
 
     return (
         <Box sx={{ ml: 2 }}>
-            <Tooltip title={open ? 'Exit Fullscreen' : 'Fullscreen'}>
+            <Tooltip title={open ? 'Salir de pantalla completa' : 'Pantalla completa'}>
                 <Avatar
                     variant="rounded"
                     sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.mediumAvatar,
-                        border: '1px solid',
-                        borderColor: theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'primary.light',
                         bgcolor: theme.palette.mode === ThemeMode.DARK ? 'dark.main' : 'primary.light',
                         color: 'primary.dark',
                         transition: 'all .2s ease-in-out',
                         '&[aria-controls="menu-list-grow"],&:hover': {
-                            borderColor: 'primary.main',
-                            bgcolor: 'primary.main',
-                            color: 'primary.light'
+                            bgcolor: 'primary.main'
                         }
                     }}
                     aria-controls={open ? 'menu-list-grow' : undefined}

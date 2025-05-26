@@ -1,19 +1,20 @@
 // paper & background
-$paper: #ffffff;
+$paper: #FFFFFF;
 
-// primary
-$primaryLight: #e3f2fd;
-$primaryMain: #2196f3;
-$primaryDark: #1e88e5;
-$primary200: #90caf9;
-$primary800: #1565c0;
+// primary (verde antorcha)
+$primaryLight: rgba(16, 77, 35, 0.1);
+$primaryMain: rgba(16, 77, 70, 0.3);
+$primaryDark: rgba(16, 77, 70, 1);
+$primary200:  pink;
+$primary800: pink;
 
-// secondary
-$secondaryLight: #ede7f6;
-$secondaryMain: #673ab7;
-$secondaryDark: #5e35b1;
-$secondary200: #b39ddb;
-$secondary800: #4527a0;
+// secondary (naranja fuego)
+$secondaryLight: #F59B70;
+$secondaryMain: #E76F30;
+$secondaryDark: #B44E16;
+$secondary200: #F9C3A3;
+$secondary800: #A8400F;
+
 
 // success Colors
 $successLight: #b9f6ca;
