@@ -17,7 +17,13 @@
             content="react admin template, material-ui react dashboard template, reactjs admin template, reactjs dashboard, react backend template"
         />
         <meta name="author" content="CodedThemes" />
-      <script type="module" crossorigin src="/Tekne/assets/index-BpzwqUF0.js"></script>
+        <script>
+            // redirige cualquier ruta a index.html para que React Router lo maneje
+            sessionStorage.redirect = location.href;
+            location.replace("/Tekne/");
+        </script>
+
+      <script type="module" crossorigin src="/Tekne/assets/index-D3CS2why.js"></script>
       <link rel="stylesheet" crossorigin href="/Tekne/assets/index-CEgvLL2-.css">
     </head>
     <body>
