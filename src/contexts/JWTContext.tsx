@@ -32,12 +32,23 @@ const JWTContext = createContext<JWTContextType | null>(null);
 export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const [state, dispatch] = useReducer(accountReducer, initialState);
 
+    const getRedirectUrl = (): string => {
+        if (typeof window !== 'undefined') {
+            const isLocalhost = window.location.origin === 'http://localhost:3000';
+            return isLocalhost ? 'http://localhost:3000/' : 'https://proyectoathanor.github.io/';
+        }
+        // Valor por defecto si no se ejecuta en el navegador
+        return 'https://proyectoathanor.github.io/';
+    };
+
+    const redirectUrl = getRedirectUrl();
+
     const loginWithGoogle = async () => {
         try {
             await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: 'http://localhost:3000/' // o la URL de tu dashboard si tienes una
+                    redirectTo: redirectUrl // o la URL de tu dashboard si tienes una
                 }
             });
         } catch (error) {

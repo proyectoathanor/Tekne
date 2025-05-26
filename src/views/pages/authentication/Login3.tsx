@@ -26,12 +26,23 @@ const Login = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
+    const getRedirectUrl = (): string => {
+        if (typeof window !== 'undefined') {
+            const isLocalhost = window.location.origin === 'http://localhost:3000';
+            return isLocalhost ? 'http://localhost:3000/' : 'https://proyectoathanor.github.io/';
+        }
+        // Valor por defecto si no se ejecuta en el navegador
+        return 'https://proyectoathanor.github.io/';
+    };
+
+    const redirectUrl = getRedirectUrl();
+
     const signInWithGoogle = async () => {
         try {
             await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: 'http://localhost:3000/' // o alguna ruta como /dashboard
+                    redirectTo: redirectUrl // o alguna ruta como /dashboard
                 }
             });
         } catch (error) {
