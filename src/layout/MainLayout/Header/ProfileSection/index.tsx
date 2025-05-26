@@ -51,7 +51,7 @@ const ProfileSection = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const { logout, user } = useAuth();
     const [open, setOpen] = useState(false);
-    
+
     const auth = useContext(JWTContext);
     if (!auth?.user) return null;
     /**
@@ -88,7 +88,9 @@ const ProfileSection = () => {
         }
         prevOpen.current = open;
     }, [open]);
-    const { user_metadata } = auth.user;
+    if (!user) return;
+    const { full_name, avatar_url, email } = user.user_metadata;
+    console.log(email);
     return (
         <>
             <Chip
@@ -114,8 +116,8 @@ const ProfileSection = () => {
                 }}
                 icon={
                     <Avatar
-                        src={user_metadata.avatar_url}
-                        alt={user_metadata.full_name}
+                        src={avatar_url}
+                        alt={full_name}
                         sx={{
                             ...theme.typography.mediumAvatar,
                             margin: '8px 0 8px 8px !important',
@@ -162,9 +164,9 @@ const ProfileSection = () => {
                                         <Box sx={{ p: 2, pb: 0 }}>
                                             <Stack sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Typography variant="h4">Hola, {user_metadata.full_name}</Typography>
+                                                    <Typography variant="h4">Hola, </Typography>
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        {user?.name}
+                                                        {full_name}
                                                     </Typography>
                                                 </Stack>
                                                 {/* <Typography variant="subtitle2">Project Admin</Typography> */}
