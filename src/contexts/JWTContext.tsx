@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import type { User } from '@supabase/supabase-js';
 
 // reducer - state management
 import { LOGOUT } from 'store/actions';
@@ -16,7 +15,7 @@ import { supabase } from '../api/supabaseClient';
 const initialState: InitialLoginContextProps = {
     isLoggedIn: false,
     isInitialized: false,
-    user: User | null;
+    user: null
 };
 
 const setSession = (serviceToken?: string | null) => {
