@@ -33,12 +33,6 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const [state, dispatch] = useReducer(accountReducer, initialState);
 
     const getRedirectUrl = (): string => {
-        if (typeof window !== 'undefined') {
-            const isLocalhost = window.location.origin === 'http://localhost:3000';
-            console.log(isLocalhost)
-            return isLocalhost ? 'http://localhost:3000/' : 'https://proyectoathanor.github.io/';
-        }
-        // Valor por defecto si no se ejecuta en el navegador
         return 'https://proyectoathanor.github.io/';
     };
 

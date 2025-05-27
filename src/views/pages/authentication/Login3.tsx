@@ -27,11 +27,6 @@ const Login = () => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     const getRedirectUrl = (): string => {
-        if (typeof window !== 'undefined') {
-            const isLocalhost = window.location.origin === 'http://localhost:3000';
-            return isLocalhost ? 'http://localhost:3000/' : 'https://proyectoathanor.github.io/';
-        }
-        // Valor por defecto si no se ejecuta en el navegador
         return 'https://proyectoathanor.github.io/';
     };
 
