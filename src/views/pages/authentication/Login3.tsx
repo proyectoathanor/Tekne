@@ -79,7 +79,7 @@ const Login = () => {
                                                         fontSize="16px"
                                                         textAlign={matchDownSM ? 'center' : 'inherit'}
                                                     >
-                                                        Enter your credentials to continue
+                                                        Inicia sesión con google para comenzar
                                                     </Typography>
                                                 </Stack>
                                             </Grid>
