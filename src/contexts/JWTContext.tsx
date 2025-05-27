@@ -33,7 +33,7 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const [state, dispatch] = useReducer(accountReducer, initialState);
 
     const getRedirectUrl = (): string => {
-        return 'https://proyectoathanor.github.io/';
+        return 'https://proyectoathanor.github.io/Tekne/';
     };
 
     const redirectUrl = getRedirectUrl();

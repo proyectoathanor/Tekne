@@ -27,7 +27,7 @@ const Login = () => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     const getRedirectUrl = (): string => {
-        return 'https://proyectoathanor.github.io/';
+        return 'https://proyectoathanor.github.io/Tekne/';
     };
 
     const redirectUrl = getRedirectUrl();
